@@ -1,4 +1,6 @@
 ---
+import { getCollection, render } from "astro:content";
+
 const sections = [
   {
     title: "Конференциялар",
@@ -29,6 +31,9 @@ const sections = [
     description: "Бейнесабақтар мен танымдық материалдар.",
   },
 ];
+
+const [home] = await getCollection("home");
+const { Content: AboutContent } = await render(home);
 ---
 
 <!doctype html>
@@ -65,17 +70,14 @@ const sections = [
     <main>
       <section class="hero" aria-labelledby="hero-title">
         <div class="container hero-inner">
-          <p class="eyebrow">ҒЫЛЫМИ-ӘДІСТЕМЕЛІК ПЛАТФОРМА</p>
+          <p class="eyebrow">{home.data.eyebrow}</p>
 
           <h1 id="hero-title">
-            Тіл — құндылық.<br />
-            <span>Сөз — өнер.</span>
-          </h1>
+  			{home.data.title}<br />
+  			<span>{home.data.title_accent}</span>
+		  </h1>
 
-          <p class="hero-description">
-            Қазақ тілі мен әдебиеті арқылы ұлттық құндылықтарды танып,
-            білім мен мәдени мұраны бірге зерделейік.
-          </p>
+          <p class="hero-description">{home.data.description}</p>
 
           <a class="button" href="#materials">
             Материалдарды қарау <span aria-hidden="true">↗</span>
@@ -141,12 +143,9 @@ const sections = [
             <p class="eyebrow">ЖОБА ТУРАЛЫ</p>
             <h2 id="about-title">Тіл мен білім.<br />Мәдениет пен құндылық.</h2>
           </div>
-          <p>
-            Бұл кеңістік қазақ тілі мен әдебиетін құндылық бағдарлы
-            оқытуға арналған материалдарды біріктіреді. Мұнда мұғалімдер,
-            студенттер мен зерттеушілерге арналған ғылыми және
-            әдістемелік еңбектер ұсынылады.
-          </p>
+          <div class="about-text">
+  			<p>{home.data.about}</p>
+		  </div>
         </div>
       </section>
     </main>
@@ -455,5 +454,13 @@ const sections = [
     .about-inner {
       gap: 24px;
     }
+  }
+  .about-text {
+    color: #4d6259;
+    font-size: 17px;
+  }
+
+  .about-text :global(p) {
+    margin: 0 0 16px;
   }
 </style>

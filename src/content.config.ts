@@ -18,6 +18,14 @@ const videoSchema = z.object({
   cover_alt: z.string().nullish(),
 });
 
+const homeSchema = z.object({
+  eyebrow: z.string(),
+  title: z.string(),
+  title_accent: z.string(),
+  description: z.string(),
+  about: z.string().nullish(),
+});
+
 const articles = defineCollection({
   loader: glob({
     pattern: "**/*.md",
@@ -74,6 +82,14 @@ const videos = defineCollection({
   schema: videoSchema,
 });
 
+const home = defineCollection({
+  loader: glob({
+    pattern: "home.md",
+    base: "./src/content/home",    
+  }),
+  schema: homeSchema,
+});
+
 export const collections = {
   articles,
   conferences,
@@ -82,4 +98,5 @@ export const collections = {
   tasks,
   resources,
   videos,
+  home,
 };
