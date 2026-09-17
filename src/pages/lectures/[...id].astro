@@ -1,0 +1,98 @@
+---
+import SectionLayout from "../../layouts/SectionLayout.astro";
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const lectures = await getCollection("lectures");
+
+  return lectures.map((lecture) => ({
+    params: { id: lecture.id },
+    props: { lecture },
+  }));
+}
+
+interface Props {
+  lecture: CollectionEntry<"lectures">;
+}
+
+const { lecture } = Astro.props;
+const { Content } = await render(lecture);
+---
+
+<SectionLayout
+  title={lecture.data.title}
+  description={lecture.data.description}
+>
+  {lecture.data.cover && (
+    <img
+      class="cover"
+      src={lecture.data.cover}
+      alt={lecture.data.cover_alt || ""}
+    />
+  )}
+
+  <article class="content">
+    <Content />
+  </article>
+
+  {lecture.data.pdf && (
+    <div class="download">
+      <a class="pdf-button" href={lecture.data.pdf} download>
+        PDF жүктеп алу ↓
+      </a>
+    </div>
+  )}
+
+  <a class="back-to-list" href="/lectures">
+    ← Дәрістер тізіміне оралу
+  </a>
+</SectionLayout>
+
+<style>
+  .cover {
+    display: block;
+    max-width: 100%;
+    max-height: 520px;
+    margin-bottom: 28px;
+    border-radius: 8px;
+  }
+
+  .content {
+    max-width: 760px;
+    font-size: 18px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+  }
+
+  .content :global(img) {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .download {
+    margin-top: 28px;
+  }
+
+  .pdf-button {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 6px;
+    background: #173d39;
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .back-to-list {
+    display: inline-block;
+    margin-top: 32px;
+    color: #173d39;
+    text-underline-offset: 5px;
+  }
+
+  a:focus-visible {
+    outline: 3px solid #a56f20;
+    outline-offset: 5px;
+  }
+</style>

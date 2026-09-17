@@ -123,4 +123,41 @@ collections:
       - label: Текст
         name: body
         widget: markdown
+  - name: lectures
+    label: Дәрістер
+    label_singular: Дәріс
+    folder: src/content/lectures
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - label: Тақырыбы
+        name: title
+        widget: string
+
+      - label: Қысқаша сипаттамасы
+        name: description
+        widget: text
+
+      - label: Мұқабасы
+        name: cover
+        widget: image
+        required: false
+        choose_url: false
+
+      - label: Сурет сипаттамасы
+        name: cover_alt
+        widget: string
+        required: false
+
+      - label: Дәріс PDF
+        name: pdf
+        widget: file
+        required: false
+        choose_url: false
+
+      - label: Мәтін
+        name: body
+        widget: markdown
   

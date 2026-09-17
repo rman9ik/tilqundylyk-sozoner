@@ -34,8 +34,17 @@ const dissertations = defineCollection({
   schema: materialSchema,
 });
 
+const lectures = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./src/content/lectures",
+  }),
+  schema: materialSchema,
+});
+
 export const collections = {
   articles,
   conferences,
   dissertations,
+  lectures,
 };
