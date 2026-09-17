@@ -196,4 +196,41 @@ collections:
 
       - label: Мәтін
         name: body
-        widget: markdown  
+        widget: markdown
+  - name: resources
+    label: Құнды деректер
+    label_singular: Материал
+    folder: src/content/resources
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - label: Тақырыбы
+        name: title
+        widget: string
+
+      - label: Қысқаша сипаттамасы
+        name: description
+        widget: text
+
+      - label: Мұқабасы
+        name: cover
+        widget: image
+        required: false
+        choose_url: false
+
+      - label: Сурет сипаттамасы
+        name: cover_alt
+        widget: string
+        required: false
+
+      - label: Материал PDF
+        name: pdf
+        widget: file
+        required: false
+        choose_url: false
+
+      - label: Мәтін
+        name: body
+        widget: markdown          

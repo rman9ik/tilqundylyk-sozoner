@@ -50,10 +50,19 @@ const tasks = defineCollection({
   schema: materialSchema,
 });
 
+const resources = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./src/content/resources",
+  }),
+  schema: materialSchema,
+});
+
 export const collections = {
   articles,
   conferences,
   dissertations,
   lectures,
   tasks,
+  resources,
 };
