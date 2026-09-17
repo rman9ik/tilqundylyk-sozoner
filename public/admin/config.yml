@@ -1,0 +1,32 @@
+local_backend: true
+
+backend:
+  name: git-gateway
+  branch: master
+
+locale: ru
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: articles
+    label: Статьи
+    label_singular: Статья
+    folder: src/content/articles
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - label: Заголовок
+        name: title
+        widget: string
+
+      - label: Краткое описание
+        name: description
+        widget: text
+
+      - label: Текст статьи
+        name: body
+        widget: markdown

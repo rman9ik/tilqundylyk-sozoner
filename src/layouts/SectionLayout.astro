@@ -12,11 +12,8 @@ const { title, description } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Мақалалар | Тіл — құндылық</title>
-    <meta
-      name="description"
-      content="Қазақ тілі мен әдебиетін оқытуға арналған ғылыми және әдістемелік мақалалар."
-    />
+    <title>{title} | Тіл — құндылық</title>
+    <meta name="description" content={description} />
   </head>
 
   <body>
@@ -28,15 +25,11 @@ const { title, description } = Astro.props;
       <a class="back" href="/#materials">← Материалдарға оралу</a>
 
       <p class="eyebrow">ҒЫЛЫМИ-ӘДІСТЕМЕЛІК МАТЕРИАЛДАР</p>
-      <h1>Мақалалар</h1>
-      <p class="description">
-        Қазақ тілі мен әдебиетін оқытуға арналған ғылыми және
-        әдістемелік мақалалар.
-      </p>
+      <h1>{title}</h1>
+      <p class="description">{description}</p>
 
       <div class="empty-state">
-        <h2>Мақалалар жақында жарияланады</h2>
-        <p>Бұл бөлімге ғылыми және әдістемелік еңбектер қосылады.</p>
+        <slot />
       </div>
     </main>
   </body>
@@ -114,15 +107,5 @@ const { title, description } = Astro.props;
     background: #fff;
     border: 1px solid #dce3dc;
     border-radius: 10px;
-  }
-
-  .empty-state h2 {
-    margin: 0 0 12px;
-    font-size: 22px;
-  }
-
-  .empty-state p {
-    margin: 0;
-    color: #596b65;
   }
 </style>

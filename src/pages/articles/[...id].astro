@@ -1,0 +1,65 @@
+---
+import SectionLayout from "../../layouts/SectionLayout.astro";
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles");
+
+  return articles.map((article) => ({
+    params: { id: article.id },
+    props: { article },
+  }));
+}
+
+interface Props {
+  article: CollectionEntry<"articles">;
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+---
+
+<SectionLayout
+  title={article.data.title}
+  description={article.data.description}
+>
+  <article class="article-body">
+    <Content />
+  </article>
+
+  <a class="back-to-list" href="/articles">
+    ← Мақалалар тізіміне оралу
+  </a>
+</SectionLayout>
+
+<style>
+  .article-body {
+    max-width: 760px;
+    font-size: 18px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+  }
+
+  .article-body :global(img) {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .article-body :global(a) {
+    color: #173d39;
+    text-decoration: underline;
+  }
+
+  .back-to-list {
+    display: inline-block;
+    margin-top: 32px;
+    color: #173d39;
+    text-underline-offset: 5px;
+  }
+
+  .back-to-list:focus-visible {
+    outline: 3px solid #a56f20;
+    outline-offset: 5px;
+  }
+</style>
