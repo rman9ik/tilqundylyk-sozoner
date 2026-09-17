@@ -233,4 +233,41 @@ collections:
 
       - label: Мәтін
         name: body
-        widget: markdown          
+        widget: markdown
+  - name: videos
+    label: Бейнематериалдар
+    label_singular: Бейнематериал
+    folder: src/content/videos
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - label: Тақырыбы
+        name: title
+        widget: string
+
+      - label: Қысқаша сипаттамасы
+        name: description
+        widget: text
+
+      - label: Бейне сілтемесі
+        name: video_url
+        widget: string
+        required: false
+        hint: YouTube немесе басқа бейнехостинг сілтемесі.
+
+      - label: Мұқабасы
+        name: cover
+        widget: image
+        required: false
+        choose_url: false
+
+      - label: Сурет сипаттамасы
+        name: cover_alt
+        widget: string
+        required: false
+
+      - label: Мәтін
+        name: body
+        widget: markdown                  

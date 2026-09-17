@@ -10,6 +10,14 @@ const materialSchema = z.object({
   pdf: z.string().nullish(),
 });
 
+const videoSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  video_url: z.string().nullish(),
+  cover: z.string().nullish(),
+  cover_alt: z.string().nullish(),
+});
+
 const articles = defineCollection({
   loader: glob({
     pattern: "**/*.md",
@@ -58,6 +66,14 @@ const resources = defineCollection({
   schema: materialSchema,
 });
 
+const videos = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./src/content/videos",
+  }),
+  schema: videoSchema,
+});
+
 export const collections = {
   articles,
   conferences,
@@ -65,4 +81,5 @@ export const collections = {
   lectures,
   tasks,
   resources,
+  videos,
 };
