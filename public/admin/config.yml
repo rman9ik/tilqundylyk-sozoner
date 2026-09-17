@@ -49,3 +49,41 @@ collections:
       - label: Текст статьи
         name: body
         widget: markdown
+  - name: conferences
+    label: Конференции
+    label_singular: Конференция
+    folder: src/content/conferences
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - label: Название конференции
+        name: title
+        widget: string
+
+      - label: Краткое описание
+        name: description
+        widget: text
+
+      - label: Обложка
+        name: cover
+        widget: image
+        required: false
+        choose_url: false
+
+      - label: Описание изображения
+        name: cover_alt
+        widget: string
+        required: false
+
+      - label: Программа или материалы в PDF
+        name: pdf
+        widget: file
+        required: false
+        choose_url: false
+
+      - label: Текст
+        name: body
+        widget: markdown
+  
