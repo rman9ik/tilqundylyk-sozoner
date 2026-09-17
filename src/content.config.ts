@@ -10,6 +10,9 @@ const articles = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    cover: z.string().nullish(),
+    cover_alt: z.string().nullish(),
+    pdf: z.string().nullish(),
   }),
 });
 

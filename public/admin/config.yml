@@ -27,6 +27,25 @@ collections:
         name: description
         widget: text
 
+      - label: Обложка
+        name: cover
+        widget: image
+        required: false
+        choose_url: false
+
+      - label: Описание изображения
+        name: cover_alt
+        widget: string
+        required: false
+        hint: Кратко опишите, что изображено на обложке.
+
+      - label: PDF-файл статьи
+        name: pdf
+        widget: file
+        required: false
+        choose_url: false
+        hint: Загрузите документ в формате PDF.
+
       - label: Текст статьи
         name: body
         widget: markdown
