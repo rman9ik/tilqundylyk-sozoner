@@ -18,7 +18,21 @@ const { title, description } = Astro.props;
 
   <body>
     <header>
-      <a class="brand" href="/">Тіл — құндылық. Сөз — өнер.</a>
+      <header>
+        <div class="header-inner">
+          <a class="brand" href="/">Тіл — құндылық. Сөз — өнер.</a>
+
+          <nav aria-label="Бөлімдер">
+            <a href="/articles">Мақалалар</a>
+            <a href="/conferences">Конференциялар</a>
+            <a href="/dissertations">Диссертациялар</a>
+            <a href="/lectures">Дәрістер</a>
+            <a href="/tasks">Тапсырмалар</a>
+            <a href="/resources">Құнды деректер</a>
+            <a href="/videos">Бейнематериалдар</a>
+          </nav>
+        </div>
+      </header>
     </header>
 
     <main>
@@ -108,4 +122,37 @@ const { title, description } = Astro.props;
     border: 1px solid #dce3dc;
     border-radius: 10px;
   }
+  .header-inner {
+  width: min(1120px, calc(100% - 48px));
+  min-height: 72px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 13px;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+@media (max-width: 900px) {
+  .header-inner {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-block: 18px;
+  }
+}
 </style>
