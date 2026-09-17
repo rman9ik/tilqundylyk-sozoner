@@ -1,0 +1,98 @@
+---
+import SectionLayout from "../../layouts/SectionLayout.astro";
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const tasks = await getCollection("tasks");
+
+  return tasks.map((task) => ({
+    params: { id: task.id },
+    props: { task },
+  }));
+}
+
+interface Props {
+  task: CollectionEntry<"tasks">;
+}
+
+const { task } = Astro.props;
+const { Content } = await render(task);
+---
+
+<SectionLayout
+  title={task.data.title}
+  description={task.data.description}
+>
+  {task.data.cover && (
+    <img
+      class="cover"
+      src={task.data.cover}
+      alt={task.data.cover_alt || ""}
+    />
+  )}
+
+  <article class="content">
+    <Content />
+  </article>
+
+  {task.data.pdf && (
+    <div class="download">
+      <a class="pdf-button" href={task.data.pdf} download>
+        PDF жүктеп алу ↓
+      </a>
+    </div>
+  )}
+
+  <a class="back-to-list" href="/tasks">
+    ← Тапсырмалар тізіміне оралу
+  </a>
+</SectionLayout>
+
+<style>
+  .cover {
+    display: block;
+    max-width: 100%;
+    max-height: 520px;
+    margin-bottom: 28px;
+    border-radius: 8px;
+  }
+
+  .content {
+    max-width: 760px;
+    font-size: 18px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+  }
+
+  .content :global(img) {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .download {
+    margin-top: 28px;
+  }
+
+  .pdf-button {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 6px;
+    background: #173d39;
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .back-to-list {
+    display: inline-block;
+    margin-top: 32px;
+    color: #173d39;
+    text-underline-offset: 5px;
+  }
+
+  a:focus-visible {
+    outline: 3px solid #a56f20;
+    outline-offset: 5px;
+  }
+</style>

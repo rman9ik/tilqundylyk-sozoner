@@ -42,9 +42,18 @@ const lectures = defineCollection({
   schema: materialSchema,
 });
 
+const tasks = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./src/content/tasks",
+  }),
+  schema: materialSchema,
+});
+
 export const collections = {
   articles,
   conferences,
   dissertations,
   lectures,
+  tasks,
 };
