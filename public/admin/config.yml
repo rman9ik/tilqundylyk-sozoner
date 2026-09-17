@@ -86,4 +86,41 @@ collections:
       - label: Текст
         name: body
         widget: markdown
+  - name: dissertations
+    label: Диссертации
+    label_singular: Диссертация
+    folder: src/content/dissertations
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - label: Название диссертации
+        name: title
+        widget: string
+
+      - label: Краткое описание
+        name: description
+        widget: text
+
+      - label: Обложка
+        name: cover
+        widget: image
+        required: false
+        choose_url: false
+
+      - label: Описание изображения
+        name: cover_alt
+        widget: string
+        required: false
+
+      - label: Диссертация в PDF
+        name: pdf
+        widget: file
+        required: false
+        choose_url: false
+
+      - label: Текст
+        name: body
+        widget: markdown
   

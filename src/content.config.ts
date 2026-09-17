@@ -26,4 +26,16 @@ const conferences = defineCollection({
   schema: materialSchema,
 });
 
-export const collections = { articles, conferences };
+const dissertations = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./src/content/dissertations",
+  }),
+  schema: materialSchema,
+});
+
+export const collections = {
+  articles,
+  conferences,
+  dissertations,
+};
