@@ -14,6 +14,18 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} | Тіл — құндылық</title>
     <meta name="description" content={description} />
+	<script
+  		is:inline
+  		async
+  		src="https://www.googletagmanager.com/gtag/js?id=G-0NQ06MK4BS">
+	</script>
+
+	<script is:inline>
+  		window.dataLayer = window.dataLayer || [];
+  		function gtag(){dataLayer.push(arguments);}
+  		gtag("js", new Date());
+  		gtag("config", "G-0NQ06MK4BS");
+	</script>    
   </head>
 
   <body>
