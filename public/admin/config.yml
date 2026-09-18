@@ -188,6 +188,13 @@ collections:
         widget: string
         required: false
 
+      - label: LearningApps сілтемесі
+        name: learningapps_url
+        widget: string
+        required: false
+        hint: "Жаттығу сілтемесі, мысалы: https://learningapps.org/3074561. Жаңа қойындыда ашылады."
+        pattern: ['^$|^https://(www\.)?learningapps\.org/[^\s]+$', 'https://learningapps.org/… түріндегі сілтемені енгізіңіз.']
+
       - label: Тапсырма PDF
         name: pdf
         widget: file
@@ -197,6 +204,7 @@ collections:
       - label: Мәтін
         name: body
         widget: markdown
+        required: false
   - name: resources
     label: Құнды деректер
     label_singular: Материал

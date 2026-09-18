@@ -10,6 +10,14 @@ const materialSchema = z.object({
   pdf: z.string().nullish(),
 });
 
+// Optional link: existing text/PDF tasks remain valid.
+const taskSchema = materialSchema.extend({
+  learningapps_url: z.string().trim().refine(
+    (value) => value === "" || /^https:\/\/(?:www\.)?learningapps\.org\/[^\s]+$/.test(value),
+    { message: "Укажите ссылку вида https://learningapps.org/3074561" },
+  ).nullish(),
+});
+
 const videoSchema = z.object({
   title: z.string(),
   description: z.string(),
@@ -63,7 +71,7 @@ const tasks = defineCollection({
     pattern: "**/*.md",
     base: "./src/content/tasks",
   }),
-  schema: materialSchema,
+  schema: taskSchema,
 });
 
 const resources = defineCollection({

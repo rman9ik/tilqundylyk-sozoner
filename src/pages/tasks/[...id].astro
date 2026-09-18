@@ -32,6 +32,16 @@ const { Content } = await render(task);
     />
   )}
 
+  {task.data.learningapps_url && (
+    <div class="download">
+      <a class="pdf-button" href={task.data.learningapps_url}
+        target="_blank" rel="noopener noreferrer">
+        LearningApps-та ашу ↗
+      </a>
+      <p class="external-note">Жаттығу жаңа қойындыда ашылады.</p>
+    </div>
+  )}
+
   <article class="content">
     <Content />
   </article>
@@ -69,6 +79,8 @@ const { Content } = await render(task);
     max-width: 100%;
     height: auto;
   }
+
+  .external-note { margin: 8px 0 24px; color: #596b65; font-size: 14px; }
 
   .download {
     margin-top: 28px;
