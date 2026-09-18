@@ -153,36 +153,41 @@ const { Content: AboutContent } = await render(home);
           }
         </div>
       </section>
-	  <section class="analytics" aria-labelledby="analytics-title">
-  		<div class="container">
-    		<p class="eyebrow">СТАТИСТИКА САЙТА</p>
-    		<h2 id="analytics-title">Сайт көрсеткіштері</h2>
+		<section class="analytics" aria-labelledby="analytics-title">
+		<div class="container">
+			<p class="eyebrow">СТАТИСТИКА САЙТА</p>
+			<h2 id="analytics-title">Сайт көрсеткіштері</h2>
 
-    		<div class="analytics-grid">
-      				<div class="analytics-card">
-        			<strong id="stat-visitors">—</strong>
-        			<span>Келушілер</span>
-      			</div>
+			<div class="analytics-grid">
+			<div class="analytics-card">
+				<strong id="stat-visitors">—</strong>
+				<span>Келушілер за всё время</span>
+			</div>
 
-      			<div class="analytics-card">
-        			<strong id="stat-views">—</strong>
-        			<span>Бет қаралымдары</span>
-      			</div>
+			<div class="analytics-card">
+				<strong id="stat-active">—</strong>
+				<span>Сейчас на сайте</span>
+			</div>
 
-      			<div class="analytics-card">
-        			<strong id="stat-articles">—</strong>
-        			<span>Мақала қаралымдары</span>
-      			</div>
-    		</div>
+			<div class="analytics-card">
+				<strong id="stat-views">—</strong>
+				<span>Все просмотры</span>
+			</div>
 
-    		<div class="top-articles">
-      			<h3>Көп оқылған мақалалар</h3>
-      			<ol id="top-articles-list">
-        			<li>Жүктелуде…</li>
-      			</ol>
-    		</div>
-  		</div>
-	  </section>
+			<div class="analytics-card">
+				<strong id="stat-downloads">—</strong>
+				<span>Скачивания PDF</span>
+			</div>
+			</div>
+
+			<div class="section-views">
+			<h3>Просмотры разделов</h3>
+			<ul id="section-views-list">
+				<li>Жүктелуде…</li>
+			</ul>
+			</div>
+		</div>
+		</section>
 
       <section id="about" class="about" aria-labelledby="about-title">
         <div class="container about-inner">
@@ -204,46 +209,54 @@ const { Content: AboutContent } = await render(home);
       </div>
     </footer>
 	<script is:inline>
-  		const loadAnalytics = async () => {
-    		try {
-      			const response = await fetch("/.netlify/functions/analytics");
-      			if (!response.ok) throw new Error("Analytics request failed");
+	const sectionLabels = {
+		"/articles": "Мақалалар",
+		"/conferences": "Конференциялар",
+		"/dissertations": "Диссертациялар",
+		"/lectures": "Дәрістер",
+		"/tasks": "Тапсырмалар",
+		"/resources": "Құнды деректер",
+		"/videos": "Бейнематериалдар",
+	};
 
-      			const data = await response.json();
+	const loadAnalytics = async () => {
+		try {
+		const response = await fetch(
+			`/.netlify/functions/analytics?ts=${Date.now()}`
+		);
 
-      			document.querySelector("#stat-visitors").textContent =
-        			data.visitors.toLocaleString("ru-RU");
+		if (!response.ok) {
+			throw new Error("Analytics request failed");
+		}
 
-      			document.querySelector("#stat-views").textContent =
-        			data.pageViews.toLocaleString("ru-RU");
+		const data = await response.json();
 
-      			const articleViews = data.articles.reduce(
-        			(total, article) => total + article.views,
-        			0
-      			);
+		document.querySelector("#stat-visitors").textContent =
+			data.visitors.toLocaleString("ru-RU");
 
-      			document.querySelector("#stat-articles").textContent =
-        			articleViews.toLocaleString("ru-RU");
+		document.querySelector("#stat-active").textContent =
+			data.activeUsersNow.toLocaleString("ru-RU");
 
-      			const list = document.querySelector("#top-articles-list");
+		document.querySelector("#stat-views").textContent =
+			data.pageViews.toLocaleString("ru-RU");
 
-      			if (!data.articles.length) {
-       				list.innerHTML = "<li>Әзірге дерек жоқ</li>";
-       				return;
-     			}
+		document.querySelector("#stat-downloads").textContent =
+			data.pdfDownloads.toLocaleString("ru-RU");
 
-    			list.innerHTML = data.articles
-        			.map(
-         				(article) =>
-            			`<li>${article.title} — ${article.views.toLocaleString("ru-RU")}</li>`
-        			)
-        			.join("");
-    		} catch (error) {
-      		  console.error(error);
-    		}
-  		};
+		const list = document.querySelector("#section-views-list");
 
-  		loadAnalytics();
+		list.innerHTML = Object.entries(data.sectionViews)
+			.map(
+			([path, views]) =>
+				`<li><span>${sectionLabels[path]}</span><strong>${views.toLocaleString("ru-RU")}</strong></li>`
+			)
+			.join("");
+		} catch (error) {
+		console.error(error);
+		}
+	};
+
+	loadAnalytics();
 	</script>
   </body>
 </html>
@@ -567,7 +580,7 @@ const { Content: AboutContent } = await render(home);
 
 	.analytics-grid {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 	gap: 18px;
 	margin-bottom: 32px;
 	}
@@ -621,4 +634,38 @@ const { Content: AboutContent } = await render(home);
 		grid-template-columns: 1fr;
 	}
 	}
+	.section-views {
+	max-width: 720px;
+	margin-top: 24px;
+	padding: 26px;
+	background: #fff;
+	border: 1px solid #dce3dc;
+	border-radius: 10px;
+	}
+
+	.section-views h3 {
+	margin: 0 0 16px;
+	font-size: 20px;
+	}
+
+	.section-views ul {
+	display: grid;
+	gap: 10px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	}
+
+	.section-views li {
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+	padding-bottom: 8px;
+	color: #596b65;
+	border-bottom: 1px solid #edf0ec;
+	}
+
+	.section-views li strong {
+	color: #173d39;
+	}	
 </style>
