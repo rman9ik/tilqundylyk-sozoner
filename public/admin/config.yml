@@ -270,4 +270,30 @@ collections:
 
       - label: Мәтін
         name: body
-        widget: markdown                  
+        widget: markdown
+  - name: homepage
+    label: Главная страница
+    files:
+      - label: Содержание главной
+        name: home
+        file: src/content/home/home.md
+        fields:
+          - label: Надзаголовок
+            name: eyebrow
+            widget: string
+
+          - label: Основной заголовок
+            name: title
+            widget: string
+
+          - label: Выделенная строка заголовка
+            name: title_accent
+            widget: string
+
+          - label: Описание
+            name: description
+            widget: text
+
+          - label: Текст блока «Жоба туралы»
+            name: about
+            widget: markdown                          
