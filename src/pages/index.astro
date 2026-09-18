@@ -153,6 +153,36 @@ const { Content: AboutContent } = await render(home);
           }
         </div>
       </section>
+	  <section class="analytics" aria-labelledby="analytics-title">
+  		<div class="container">
+    		<p class="eyebrow">СТАТИСТИКА САЙТА</p>
+    		<h2 id="analytics-title">Сайт көрсеткіштері</h2>
+
+    		<div class="analytics-grid">
+      				<div class="analytics-card">
+        			<strong id="stat-visitors">—</strong>
+        			<span>Келушілер</span>
+      			</div>
+
+      			<div class="analytics-card">
+        			<strong id="stat-views">—</strong>
+        			<span>Бет қаралымдары</span>
+      			</div>
+
+      			<div class="analytics-card">
+        			<strong id="stat-articles">—</strong>
+        			<span>Мақала қаралымдары</span>
+      			</div>
+    		</div>
+
+    		<div class="top-articles">
+      			<h3>Көп оқылған мақалалар</h3>
+      			<ol id="top-articles-list">
+        			<li>Жүктелуде…</li>
+      			</ol>
+    		</div>
+  		</div>
+	  </section>
 
       <section id="about" class="about" aria-labelledby="about-title">
         <div class="container about-inner">
@@ -173,6 +203,48 @@ const { Content: AboutContent } = await render(home);
         <span>Қазақ тілі · Білім · Мәдениет</span>
       </div>
     </footer>
+	<script is:inline>
+  		const loadAnalytics = async () => {
+    		try {
+      			const response = await fetch("/.netlify/functions/analytics");
+      			if (!response.ok) throw new Error("Analytics request failed");
+
+      			const data = await response.json();
+
+      			document.querySelector("#stat-visitors").textContent =
+        			data.visitors.toLocaleString("ru-RU");
+
+      			document.querySelector("#stat-views").textContent =
+        			data.pageViews.toLocaleString("ru-RU");
+
+      			const articleViews = data.articles.reduce(
+        			(total, article) => total + article.views,
+        			0
+      			);
+
+      			document.querySelector("#stat-articles").textContent =
+        			articleViews.toLocaleString("ru-RU");
+
+      			const list = document.querySelector("#top-articles-list");
+
+      			if (!data.articles.length) {
+       				list.innerHTML = "<li>Әзірге дерек жоқ</li>";
+       				return;
+     			}
+
+    			list.innerHTML = data.articles
+        			.map(
+         				(article) =>
+            			`<li>${article.title} — ${article.views.toLocaleString("ru-RU")}</li>`
+        			)
+        			.join("");
+    		} catch (error) {
+      		  console.error(error);
+    		}
+  		};
+
+  		loadAnalytics();
+	</script>
   </body>
 </html>
 
@@ -480,4 +552,73 @@ const { Content: AboutContent } = await render(home);
   .about-text :global(p) {
     margin: 0 0 16px;
   }
+	.analytics {
+	padding: 88px 0;
+	background: #f0f4ef;
+	}
+
+	.analytics h2 {
+	margin: 10px 0 32px;
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: clamp(34px, 5vw, 56px);
+	font-weight: 400;
+	line-height: 1.15;
+	}
+
+	.analytics-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 18px;
+	margin-bottom: 32px;
+	}
+
+	.analytics-card {
+	padding: 26px;
+	background: #fff;
+	border: 1px solid #dce3dc;
+	border-radius: 10px;
+	}
+
+	.analytics-card strong {
+	display: block;
+	margin-bottom: 8px;
+	color: #173d39;
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 40px;
+	font-weight: 400;
+	}
+
+	.analytics-card span {
+	color: #596b65;
+	font-size: 15px;
+	}
+
+	.top-articles {
+	max-width: 720px;
+	padding: 26px;
+	background: #fff;
+	border: 1px solid #dce3dc;
+	border-radius: 10px;
+	}
+
+	.top-articles h3 {
+	margin: 0 0 16px;
+	font-size: 20px;
+	}
+
+	.top-articles ol {
+	margin: 0;
+	padding-left: 22px;
+	color: #596b65;
+	}
+
+	.top-articles li + li {
+	margin-top: 8px;
+	}
+
+	@media (max-width: 700px) {
+	.analytics-grid {
+		grid-template-columns: 1fr;
+	}
+	}
 </style>
