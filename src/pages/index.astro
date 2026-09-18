@@ -249,7 +249,7 @@ const { Content: AboutContent } = await render(home);
 		list.innerHTML = Object.entries(data.sectionViews)
 			.map(
 			([path, views]) =>
-				`<li><span>${sectionLabels[path]}</span><strong>${views.toLocaleString("ru-RU")}</strong></li>`
+				`<li><span>${sectionLabels[path]}</span><strong>&nbsp;${views.toLocaleString("ru-RU")}</strong></li>`
 			)
 			.join("");
 		} catch (error) {
