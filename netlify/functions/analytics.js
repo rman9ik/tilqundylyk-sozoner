@@ -1,6 +1,6 @@
-const { BetaAnalyticsDataClient } = require("@google-analytics/data");
+import { BetaAnalyticsDataClient } from "@google-analytics/data";
 
-exports.handler = async function () {
+export const handler = async function () {
   try {
     const credentials = JSON.parse(
       Buffer.from(
